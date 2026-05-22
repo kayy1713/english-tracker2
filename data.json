@@ -1,0 +1,33 @@
+{
+  "lessons": [
+    {
+      "id": 2,
+      "title": "Lesson002",
+      "zoom_link": "https://zoom.us/j/5366651812",
+      "lesson_date": "April 29, Wednesday"
+    }
+  ],
+  "homeworks": [
+    {
+      "id": 1,
+      "title": "ÖDEV",
+      "description": "",
+      "completed": true,
+      "photos": [],
+      "score": 1,
+      "comment": "100"
+    }
+  ],
+  "teacher_phone": "05418792012",
+  "help_requests": [
+    {
+      "id": 1,
+      "title": "e",
+      "message": "f",
+      "reply": "",
+      "from_teacher": true,
+      "timestamp": "2026-04-17 21:17"
+    }
+  ],
+  "teacher_password": "1234"
+}
