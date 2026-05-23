@@ -1,4 +1,4 @@
-from flask import Flask, render_template_string, request, redirect, url_for, session, flash, send_from_directory
+from flask import Flask, render_template_string, request, redirect, session, flash, send_from_directory
 import sqlite3
 import os
 import random
@@ -16,6 +16,7 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 # ================= DATABASE =================
 
 def init_db():
+
     conn = sqlite3.connect(DB_NAME)
     c = conn.cursor()
 
@@ -55,13 +56,18 @@ init_db()
 # ================= BASE HTML =================
 
 BASE_HTML = """
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
+
 <title>English Tracker</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
 <style>
@@ -127,6 +133,7 @@ img.preview{
 }
 
 </style>
+
 </head>
 
 <body>
@@ -134,13 +141,19 @@ img.preview{
 {% if logged_in %}
 
 <nav class="navbar navbar-dark bg-dark fixed-top">
+
 <div class="container-fluid">
-<span class="navbar-brand fs-4">English Tracker</span>
+
+<span class="navbar-brand fs-4">
+English Tracker
+</span>
 
 <a href="/logout" class="btn btn-outline-light">
 Logout
 </a>
+
 </div>
+
 </nav>
 
 <div class="sidebar">
@@ -180,7 +193,9 @@ Submit Homework
 <div class="{{ 'content' if logged_in else '' }}">
 
 {% with messages = get_flashed_messages(with_categories=true) %}
+
 {% if messages %}
+
 {% for cat,msg in messages %}
 
 <div class="alert alert-{{cat}}">
@@ -188,7 +203,9 @@ Submit Homework
 </div>
 
 {% endfor %}
+
 {% endif %}
+
 {% endwith %}
 
 {{ content|safe }}
@@ -196,7 +213,9 @@ Submit Homework
 </div>
 
 </body>
+
 </html>
+
 """
 
 # ================= HOME =================
@@ -218,9 +237,33 @@ def home():
 Teacher
 </a>
 
+<div class="text-white mb-4">
+
+<p class="mb-1">
+Teacher Panel
+</p>
+
+<p style="font-size:14px;">
+Create and check student homeworks
+</p>
+
+</div>
+
 <a href="/student_login" class="btn btn-warning btn-lg px-5 m-3">
 Student
 </a>
+
+<div class="text-white">
+
+<p class="mb-1">
+Student Panel
+</p>
+
+<p style="font-size:14px;">
+View and submit your homeworks
+</p>
+
+</div>
 
 </div>
 
@@ -228,9 +271,11 @@ Student
 
 """
 
-    return render_template_string(BASE_HTML,
-                                  content=html,
-                                  logged_in=False)
+    return render_template_string(
+        BASE_HTML,
+        content=html,
+        logged_in=False
+    )
 
 # ================= TEACHER LOGIN =================
 
@@ -250,8 +295,11 @@ def teacher_login():
             password = str(random.randint(100000, 999999))
 
             c.execute("DELETE FROM teacher")
-            c.execute("INSERT INTO teacher(phone,password) VALUES(?,?)",
-                      (phone, password))
+
+            c.execute(
+                "INSERT INTO teacher(phone,password) VALUES(?,?)",
+                (phone, password)
+            )
 
             conn.commit()
 
@@ -263,8 +311,10 @@ def teacher_login():
             phone = request.form["phone"]
             password = request.form["password"]
 
-            c.execute("SELECT * FROM teacher WHERE phone=? AND password=?",
-                      (phone, password))
+            c.execute(
+                "SELECT * FROM teacher WHERE phone=? AND password=?",
+                (phone, password)
+            )
 
             teacher = c.fetchone()
 
@@ -340,9 +390,11 @@ Login
 
 """
 
-    return render_template_string(BASE_HTML,
-                                  content=html,
-                                  logged_in=False)
+    return render_template_string(
+        BASE_HTML,
+        content=html,
+        logged_in=False
+    )
 
 # ================= STUDENT LOGIN =================
 
@@ -395,9 +447,11 @@ Login
 
 """
 
-    return render_template_string(BASE_HTML,
-                                  content=html,
-                                  logged_in=False)
+    return render_template_string(
+        BASE_HTML,
+        content=html,
+        logged_in=False
+    )
 
 # ================= CREATE HOMEWORK =================
 
@@ -475,10 +529,12 @@ Send To Student
 
     conn.close()
 
-    return render_template_string(BASE_HTML,
-                                  content=html,
-                                  logged_in=True,
-                                  role="teacher")
+    return render_template_string(
+        BASE_HTML,
+        content=html,
+        logged_in=True,
+        role="teacher"
+    )
 
 # ================= PENDING HOMEWORKS =================
 
@@ -492,6 +548,7 @@ def pending_homeworks():
     c = conn.cursor()
 
     c.execute("SELECT * FROM homeworks ORDER BY id DESC")
+
     homeworks = c.fetchall()
 
     html = "<h2 class='mb-4'>Pending Homeworks</h2>"
@@ -516,10 +573,12 @@ def pending_homeworks():
 
     conn.close()
 
-    return render_template_string(BASE_HTML,
-                                  content=html,
-                                  logged_in=True,
-                                  role="student")
+    return render_template_string(
+        BASE_HTML,
+        content=html,
+        logged_in=True,
+        role="student"
+    )
 
 # ================= SUBMIT HOMEWORK =================
 
@@ -657,10 +716,12 @@ My Submitted Homeworks
 
     conn.close()
 
-    return render_template_string(BASE_HTML,
-                                  content=html,
-                                  logged_in=True,
-                                  role="student")
+    return render_template_string(
+        BASE_HTML,
+        content=html,
+        logged_in=True,
+        role="student"
+    )
 
 # ================= CHECK HOMEWORKS =================
 
@@ -760,10 +821,12 @@ Save Score
 
     conn.close()
 
-    return render_template_string(BASE_HTML,
-                                  content=html,
-                                  logged_in=True,
-                                  role="teacher")
+    return render_template_string(
+        BASE_HTML,
+        content=html,
+        logged_in=True,
+        role="teacher"
+    )
 
 # ================= LOGOUT =================
 
@@ -786,6 +849,7 @@ def uploaded_file(filename):
 if __name__ == "__main__":
 
     print("\n✅ English Tracker Running!")
-    print("http://127.0.0.1:5999\n")
 
-    app.run(host="0.0.0.0", port=8225333333333333333333333333333333333333333333333333333333333333333333333333333333333333, debug=False)
+    port = int(os.environ.get("PORT", 5999))
+
+    app.run(host="0.0.0.0", port=port)
