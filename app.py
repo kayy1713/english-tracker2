@@ -132,6 +132,20 @@ img.preview{
     border-radius:15px;
 }
 
+.project-links{
+    background:white;
+    padding:25px;
+    border-radius:20px;
+    margin-top:40px;
+    max-width:700px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.project-links a{
+    word-break:break-all;
+}
+
 </style>
 
 </head>
@@ -225,7 +239,7 @@ def home():
 
     html = """
 
-<div class="gradient d-flex justify-content-center align-items-center">
+<div class="gradient d-flex justify-content-center align-items-center flex-column">
 
 <div class="text-center">
 
@@ -267,6 +281,32 @@ View and submit your homeworks
 
 </div>
 
+<div class="project-links">
+
+<h4 class="mb-3">
+Project Links
+</h4>
+
+<p>
+<b>GitHub Repository:</b>
+</p>
+
+<a href="https://github.com/kayy1713/english-tracker2/tree/main" target="_blank">
+https://github.com/kayy1713/english-tracker2/tree/main
+</a>
+
+<hr>
+
+<p class="mt-3">
+<b>Render Web Service:</b>
+</p>
+
+<a href="https://dashboard.render.com/web/srv-d88bbn5ckfvc738r41d0/settings" target="_blank">
+https://dashboard.render.com/web/srv-d88bbn5ckfvc738r41d0/settings
+</a>
+
+</div>
+
 </div>
 
 """
@@ -287,7 +327,6 @@ def teacher_login():
 
     if request.method == "POST":
 
-        # SEND PASSWORD
         if "send_password" in request.form:
 
             phone = request.form["phone"]
@@ -305,7 +344,6 @@ def teacher_login():
 
             flash(f"Your password: {password}", "success")
 
-        # LOGIN
         elif "login" in request.form:
 
             phone = request.form["phone"]
@@ -548,7 +586,6 @@ def pending_homeworks():
     c = conn.cursor()
 
     c.execute("SELECT * FROM homeworks ORDER BY id DESC")
-
     homeworks = c.fetchall()
 
     html = "<h2 class='mb-4'>Pending Homeworks</h2>"
