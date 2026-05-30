@@ -244,7 +244,7 @@ def home():
 <div class="text-center">
 
 <h1 class="text-white display-3 mb-5">
-🇬🇧 English Tracker
+🇬🇧 English Tracker - DEMO
 </h1>
 
 <a href="/teacher_login" class="btn btn-light btn-lg px-5 m-3">
